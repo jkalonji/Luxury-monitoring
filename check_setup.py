@@ -1,7 +1,7 @@
 """Luxury Radar - setup check: are the secrets present and do the services accept them?
 
 Run it from GitHub (Actions -> "Luxury Radar - Check setup") or locally with a .env. It never prints a secret:
-only OK/KO statuses, the Supabase project id carried by the key (it is public: it is in your dashboard URL)
+only OK/KO statuses, the Supabase project id from SUPABASE_URL (it is public: it is in your dashboard URL)
 and the names of the Resend domains.
 """
 
@@ -37,18 +37,22 @@ def check_supabase(env=os.environ) -> list[tuple[str, str]]:
     host = up.urlparse(url).netloc
     if not url.startswith("https://") or not host.endswith(".supabase.co") or up.urlparse(url).path not in ("", "/"):
         out.append((WARN, "SUPABASE_URL should look like https://<project-id>.supabase.co (no path, no /rest/v1)"))
+    url_ref = host.split(".")[0]
+    out.append((OK, f"SUPABASE_URL points to project '{url_ref}'"))
     claims = jwt_claims(key)
-    if claims:
+    if claims:                                   # legacy JWT keys carry their role and project
         role, ref = claims.get("role"), claims.get("ref", "")
         out.append((OK if role == "service_role" else KO, f"key role: {role} (must be service_role, not anon)"))
-        if ref:
-            same = host.split(".")[0] == ref
-            out.append((OK if same else KO, f"key belongs to project '{ref}'; SUPABASE_URL "
-                        f"{'points to the same project' if same else 'points to ANOTHER project'}"))
-            out.append((WARN, f"run schema.sql in the project whose id is '{ref}' "
-                        f"(the id in your dashboard URL: supabase.com/dashboard/project/{ref})"))
+        if ref and ref != url_ref:
+            out.append((KO, f"key belongs to project '{ref}' but SUPABASE_URL points to '{url_ref}'"))
+    elif key.startswith("sb_secret_"):
+        out.append((OK, "key is a new-format secret key"))
+    elif key.startswith("sb_publishable_"):
+        out.append((KO, "key is a PUBLISHABLE key: use the secret key (Project Settings -> API Keys)"))
     else:
-        out.append((WARN, "key is not a legacy JWT (new-format key?): role/project cannot be inspected"))
+        out.append((WARN, "key format not recognised: role cannot be inspected"))
+    out.append((WARN, f"schema.sql must be run in project '{url_ref}' "
+                f"(in your browser: supabase.com/dashboard/project/{url_ref})"))
     base = url.rstrip("/")
     headers = {"apikey": key, "Authorization": f"Bearer {key}"}
     for table in TABLES:

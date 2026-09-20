@@ -36,7 +36,8 @@ def test_supabase_missing_tables_is_reported_with_project_id(monkeypatch):
                         lambda url, **kw: Resp(404, "{'code': 'PGRST205'}"))
     res = check_supabase(supabase_env())
     text = "\n".join(m for _, m in res)
-    assert "table articles: MISSING" in text and "'abc123'" in text and "supabase.com/dashboard/project/abc123" in text
+    assert "table articles: MISSING" in text and "points to project 'abc123'" in text
+    assert "supabase.com/dashboard/project/abc123" in text
     assert KO in statuses(res)
 
 
@@ -49,7 +50,7 @@ def test_supabase_detects_anon_key_wrong_project_and_bad_url(monkeypatch):
     monkeypatch.setattr(check_setup.requests, "get", lambda url, **kw: Resp(200))
     assert KO in statuses(check_supabase(supabase_env(role="anon")))
     res = check_supabase({**supabase_env(), "SUPABASE_URL": "https://other.supabase.co"})
-    assert any("ANOTHER project" in m for _, m in res)
+    assert any(s == KO and "'abc123' but SUPABASE_URL points to 'other'" in m for s, m in res)
     res = check_supabase({**supabase_env(), "SUPABASE_URL": "https://abc123.supabase.co/rest/v1/"})
     assert any(s == WARN and "should look like" in m for s, m in res)
     assert statuses(check_supabase({})) == [KO]
@@ -92,3 +93,14 @@ def test_bluesky(monkeypatch):
     assert statuses(check_bluesky({"BSKY_HANDLE": "h", "BSKY_APP_PASSWORD": "p"})) == [OK]
     monkeypatch.setattr(check_setup.requests, "post", lambda url, **kw: Resp(401))
     assert statuses(check_bluesky({"BSKY_HANDLE": "h", "BSKY_APP_PASSWORD": "p"})) == [KO]
+
+
+def test_supabase_new_format_keys(monkeypatch):
+    monkeypatch.setattr(check_setup.requests, "get", lambda url, **kw: Resp(404, "PGRST205"))
+    res = check_supabase({"SUPABASE_URL": "https://proj42.supabase.co", "SUPABASE_KEY": "sb_secret_abcdef"})
+    text = "
+".join(m for _, m in res)
+    assert "new-format secret key" in text and "points to project 'proj42'" in text and "project 'proj42'" in text
+    assert "sb_secret_abcdef" not in text
+    pub = check_supabase({"SUPABASE_URL": "https://proj42.supabase.co", "SUPABASE_KEY": "sb_publishable_x"})
+    assert any(s == KO and "PUBLISHABLE" in m for s, m in pub)
