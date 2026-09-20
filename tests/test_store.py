@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from models import Article
-from store import ARTICLE_COLUMNS, SqliteStore, SupabaseStore, _TABLE_COLUMNS, article_row, get_store
+from store import SchemaMissingError, ARTICLE_COLUMNS, SqliteStore, SupabaseStore, _TABLE_COLUMNS, article_row, get_store
 
 
 def test_article_roundtrip(store, make_article):
@@ -190,3 +190,30 @@ def test_schema_sql_matches_store_columns():
         for col in cols:
             assert re.search(rf"(^|\n)\s*{col}\s", body), f"{table}.{col} missing in schema.sql"
     assert "row level security" in sql.lower()
+
+
+class BrokenClient:
+    def __init__(self, message):
+        self.message = message
+
+    def table(self, name):
+        raise Exception(self.message)
+
+
+@pytest.mark.parametrize("call", ["load", "save", "story", "open"])
+def test_missing_tables_give_an_actionable_error(call, make_article, capsys):
+    err = "{'message': \"Could not find the table 'public.articles' in the schema cache\", 'code': 'PGRST205'}"
+    st = SupabaseStore("u", "k", client=BrokenClient(err))
+    action = {"load": lambda: st.load_articles(3), "save": lambda: st.save_articles([make_article("x")]),
+              "story": lambda: st.save_story({"label": "a", "first_seen": "2026-01-01", "last_seen": "2026-01-01"}),
+              "open": st.open_stories}[call]
+    with pytest.raises(SchemaMissingError, match="schema.sql"):
+        action()
+    assert "::error::Supabase tables not found" in capsys.readouterr().out
+
+
+def test_other_supabase_errors_are_not_masked():
+    st = SupabaseStore("u", "k", client=BrokenClient("network down"))
+    with pytest.raises(Exception, match="network down") as exc:
+        st.load_articles(3)
+    assert not isinstance(exc.value, SchemaMissingError)

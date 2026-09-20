@@ -191,6 +191,22 @@ class SqliteStore(Store):
 # Supabase
 # ---------------------------------------------------------------------------
 
+class SchemaMissingError(RuntimeError):
+    """The Supabase tables do not exist (schema.sql was not run on this project)."""
+
+
+def _explain(exc: Exception) -> Exception:
+    """Turn PostgREST's cryptic 'table not in schema cache' into an actionable message."""
+    text = str(exc)
+    if "PGRST205" in text or "schema cache" in text:
+        msg = ("Supabase tables not found: run schema.sql in the SQL Editor of the Supabase project that SUPABASE_URL "
+               "points to (then, if it still fails, run: NOTIFY pgrst, 'reload schema';). "
+               f"Original error: {text[:200]}")
+        print(f"::error::{msg}")
+        return SchemaMissingError(msg)
+    return exc
+
+
 class SupabaseStore(Store):
     PAGE = 1000
     CHUNK = 500
@@ -202,10 +218,19 @@ class SupabaseStore(Store):
         self.client = client
 
     def _upsert(self, table, rows, conflict):
-        for i in range(0, len(rows), self.CHUNK):
-            self.client.table(table).upsert(rows[i:i + self.CHUNK], on_conflict=conflict).execute()
+        try:
+            for i in range(0, len(rows), self.CHUNK):
+                self.client.table(table).upsert(rows[i:i + self.CHUNK], on_conflict=conflict).execute()
+        except Exception as e:
+            raise _explain(e) from e
 
     def _select(self, table, gte=None, eq=None):
+        try:
+            return self._select_pages(table, gte, eq)
+        except Exception as e:
+            raise _explain(e) from e
+
+    def _select_pages(self, table, gte, eq):
         out, start = [], 0
         while True:
             q = self.client.table(table).select("*")
@@ -222,10 +247,16 @@ class SupabaseStore(Store):
             start += self.PAGE
 
     def _insert(self, table, row):
-        return self.client.table(table).insert(row).execute().data[0]["id"]
+        try:
+            return self.client.table(table).insert(row).execute().data[0]["id"]
+        except Exception as e:
+            raise _explain(e) from e
 
     def _update(self, table, row_id, values):
-        self.client.table(table).update(values).eq("id", row_id).execute()
+        try:
+            self.client.table(table).update(values).eq("id", row_id).execute()
+        except Exception as e:
+            raise _explain(e) from e
 
 
 def get_store() -> Store:

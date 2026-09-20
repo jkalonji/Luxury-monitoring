@@ -114,6 +114,15 @@ python -m pytest -m live        # tests contre les vrais services
 
 Sans `SUPABASE_*`, les données vont dans `data/local.db` (SQLite, ignoré par git).
 
+## Dépannage
+
+| Message dans le log | Cause | Solution |
+|---|---|---|
+| `Could not find the table 'public.articles'` (`PGRST205`) | `schema.sql` n'a pas été exécuté sur le projet Supabase pointé par `SUPABASE_URL` | Supabase → *SQL Editor* → coller `schema.sql` → *Run*. Si l'erreur persiste : `NOTIFY pgrst, 'reload schema';` |
+| `401` / `Invalid API key` | `SUPABASE_KEY` incorrecte | Utiliser la clé **service_role** (Project Settings → API), pas la clé anon |
+| `Resend rejected the e-mail (403)` | domaine d'envoi non vérifié | Vérifier un domaine dans Resend, ou n'envoyer qu'à l'adresse du compte avec `onboarding@resend.dev` |
+| `Groq failed on N batches` | clé invalide ou modèle retiré | Vérifier `GROQ_API_KEY` et la variable Actions `GROQ_MODEL` |
+
 ## Workflows
 
 | Fichier | Déclencheur | Rôle |
