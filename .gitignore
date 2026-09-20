@@ -2,7 +2,7 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-data/local.db
+data/*.db
 output/
 site/
 .venv/

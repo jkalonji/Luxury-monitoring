@@ -8,7 +8,7 @@
     { "name": "Elle France", "type": "gnews", "query": "site:elle.fr (mode OR luxe OR défilé OR maison) when:2d", "lang": "fr", "country": "🇫🇷", "enabled": true, "filter": "luxury" },
     { "name": "Views", "type": "gnews", "query": "site:views.fr when:14d", "lang": "fr", "country": "🇫🇷", "enabled": true },
     { "name": "GQ France", "type": "rss", "url": "https://www.gqmagazine.fr/feed/rss", "lang": "fr", "country": "🇫🇷", "enabled": true, "filter": "luxury" },
-    { "name": "Le Monde M", "type": "rss", "url": "https://www.lemonde.fr/m-mode/rss_full.xml", "lang": "fr", "country": "🇫🇷", "enabled": true },
+    { "name": "Le Monde M", "type": "rss", "url": "https://www.lemonde.fr/m-mode/rss_full.xml", "fallback_query": "site:lemonde.fr (mode OR luxe OR couture OR défilé) when:7d", "lang": "fr", "country": "🇫🇷", "enabled": true },
     { "name": "Madame Figaro", "type": "gnews", "query": "site:madame.lefigaro.fr (mode OR luxe OR défilé) when:2d", "lang": "fr", "country": "🇫🇷", "enabled": true, "filter": "luxury" },
 
     { "comment": "=== ROYAUME-UNI ===" },
@@ -34,9 +34,9 @@
     { "name": "Highsnobiety", "type": "rss", "url": "https://www.highsnobiety.com/feed/", "lang": "en", "country": "🇩🇪", "enabled": true },
 
     { "comment": "=== SOCIAL (engagement / signaux faibles) ===" },
-    { "name": "Reddit r/fashion", "type": "reddit", "url": "https://www.reddit.com/r/fashion/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" },
-    { "name": "Reddit r/handbags", "type": "reddit", "url": "https://www.reddit.com/r/handbags/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true },
-    { "name": "Reddit r/malefashionadvice", "type": "reddit", "url": "https://www.reddit.com/r/malefashionadvice/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" },
-    { "name": "Reddit r/femalefashionadvice", "type": "reddit", "url": "https://www.reddit.com/r/femalefashionadvice/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" }
+    { "name": "Reddit r/fashion", "type": "reddit", "url": "https://www.reddit.com/r/fashion/top/.rss?t=day", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" },
+    { "name": "Reddit r/handbags", "type": "reddit", "url": "https://www.reddit.com/r/handbags/top/.rss?t=day", "lang": "en", "country": "🌍", "enabled": true },
+    { "name": "Reddit r/malefashionadvice", "type": "reddit", "url": "https://www.reddit.com/r/malefashionadvice/top/.rss?t=day", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" },
+    { "name": "Reddit r/femalefashionadvice", "type": "reddit", "url": "https://www.reddit.com/r/femalefashionadvice/top/.rss?t=day", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" }
   ]
 }

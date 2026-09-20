@@ -1,0 +1,8 @@
+aiohttp>=3.9
+feedparser>=6.0
+groq>=0.30
+requests>=2.31
+supabase>=2.0
+python-dotenv>=1.0
+pytrends>=4.9
+atproto>=0.0.55

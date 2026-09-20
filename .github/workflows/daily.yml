@@ -1,0 +1,104 @@
+name: Luxury Radar - Daily collection
+
+on:
+  schedule:
+    # 08:00 CET = 07:00 UTC (winter) / 09:00 CEST = 07:00 UTC (summer)
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+    inputs:
+      backfill_days:
+        description: "First run only: load the last N days to seed the signal baselines (no e-mail). 0 = normal daily run."
+        required: false
+        default: '0'
+      dry_run:
+        description: "Do not send the e-mail"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two collections at once: they share the same database.
+concurrency:
+  group: luxury-radar
+  cancel-in-progress: false
+
+jobs:
+  collect-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check storage is configured
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "::warning::SUPABASE_URL is not set: the runner is ephemeral, so nothing is kept between runs and the weak-signal history never builds up."
+          fi
+
+      - name: Run Luxury Radar
+        id: radar
+        continue-on-error: true   # a failed e-mail must not prevent the dashboard from being published
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          MAIL_FROM: ${{ vars.MAIL_FROM }}
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+          DASHBOARD_URL: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          BACKFILL_DAYS: ${{ github.event.inputs.backfill_days || '0' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          args=""
+          if [ "$BACKFILL_DAYS" != "0" ]; then args="$args --backfill-days $BACKFILL_DAYS"; fi
+          if [ "$DRY_RUN" = "true" ]; then args="$args --dry-run"; fi
+          python main.py $args
+
+      - name: Generate dashboard
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          mkdir -p site
+          python dashboard.py --export --days 30 --output site/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site'
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Fail the run if the collection failed
+        if: steps.radar.outcome == 'failure'
+        run: |
+          echo "::error::The collection step failed (see 'Run Luxury Radar'). The dashboard was still published."
+          exit 1
