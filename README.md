@@ -116,6 +116,10 @@ Sans `SUPABASE_*`, les données vont dans `data/local.db` (SQLite, ignoré par g
 
 ## Dépannage
 
+Premier réflexe : *Actions → Luxury Radar - Check setup → Run workflow*. Ce job vérifie en une minute, sans afficher
+aucun secret, que Supabase (clé `service_role`, bon projet, tables présentes), Groq (clé et modèle), Resend (clé, destinataires,
+domaine d'envoi vérifié) et Bluesky acceptent vos réglages.
+
 | Message dans le log | Cause | Solution |
 |---|---|---|
 | `Could not find the table 'public.articles'` (`PGRST205`) | `schema.sql` n'a pas été exécuté sur le projet Supabase pointé par `SUPABASE_URL` | Supabase → *SQL Editor* → coller `schema.sql` → *Run*. Si l'erreur persiste : `NOTIFY pgrst, 'reload schema';` |
@@ -130,6 +134,7 @@ Sans `SUPABASE_*`, les données vont dans `data/local.db` (SQLite, ignoré par g
 | `daily.yml` | tous les jours 07:00 UTC + manuel | collecte, e-mail quotidien, export et déploiement du dashboard |
 | `weekly.yml` | lundi 07:30 UTC + manuel | e-mail hebdomadaire (7 jours vs 7 précédents) |
 | `dashboard.yml` | manuel | reconstruit et publie le dashboard sans collecter |
+| `check.yml` | manuel | vérifie les secrets et les services (voir Dépannage) |
 | `ci.yml` | push / PR | tests |
 
 ## Limites connues

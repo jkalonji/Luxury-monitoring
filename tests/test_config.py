@@ -19,11 +19,11 @@ def workflows():
 
 def test_three_workflows_with_expected_triggers():
     wf = workflows()
-    assert set(wf) == {"daily.yml", "weekly.yml", "dashboard.yml", "ci.yml"}
+    assert set(wf) == {"daily.yml", "weekly.yml", "dashboard.yml", "ci.yml", "check.yml"}
     assert wf["daily.yml"][True]["schedule"][0]["cron"] == "0 7 * * *"
     assert wf["weekly.yml"][True]["schedule"][0]["cron"] == "30 7 * * 1"
     for name, w in wf.items():
-        if name == "ci.yml":
+        if name in ("ci.yml", "check.yml"):
             continue
         assert "workflow_dispatch" in w[True], name
         assert w["concurrency"]["group"] == "luxury-radar" and w["concurrency"]["cancel-in-progress"] is False
