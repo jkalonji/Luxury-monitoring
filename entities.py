@@ -22,6 +22,7 @@ class Entity:
     group: str = ""
     wikipedia: dict[str, str] = field(default_factory=dict)   # lang -> page title
     trends: str = ""
+    pinned: bool = False                # always shown in the dashboard "Personnalités" block
 
 
 class EntityIndex:
@@ -35,6 +36,7 @@ class EntityIndex:
                     id=e["id"], label=e["label"], type=etype,
                     aliases=e.get("aliases") or [e["label"]], group=e.get("group", ""),
                     wikipedia=e.get("wikipedia") or {}, trends=e.get("trends") or e["label"],
+                    pinned=bool(e.get("pinned", False)),
                 ))
         self.by_id = {e.id: e for e in self.entities}
         # One compiled regex per entity; whole-word, accent/case insensitive.

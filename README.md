@@ -20,14 +20,15 @@ GitHub Actions (cron)
 
 | Section | Contenu |
 |---|---|
+| **Personnalités** | Toujours affichées, même sans article : Demna, Nicolas Ghesquière, Pharrell Williams, Bernard Arnault, Jonathan Anderson (nombre d'articles, sentiment, dernier article). Liste = les entrées de `people` avec `"pinned": true` dans `entities.json` |
 | **Signaux faibles** | Maisons / personnes / termes dont une métrique a au moins doublé la veille (voir « Méthode »), avec courbe sur 30 jours |
 | **Sentiment** | Évolution quotidienne (positif / neutre / négatif) et tableau par maison ou personne |
 | **Nuage de mots** | Termes les plus fréquents des titres, colorés selon le sentiment moyen ; clic = filtre |
 | **Qui en parle ?** | Choisir un sujet (maison, personne, terme) : sources classées par nombre d'articles, avec leur sentiment |
 | **Sujets chauds** | Sujets traités par ≥ 3 articles de ≥ 2 sources, et histoires qui durent plusieurs jours |
-| **Catégories / Articles** | Les 10 catégories et la liste filtrable des articles |
+| **Catégories / Articles** | Les 10 catégories ; un clic sur une ligne affiche ses articles dans la section Articles (puce de filtre retirable, 2ᵉ clic = retirer) |
 
-Filtres : période (7 / 14 / 30 jours), maison. Thème clair / sombre automatique.
+Filtres : période (7 / 14 / 30 jours), maison. Style rose ; variante sombre (prune) automatique selon le thème du système.
 
 ## Sources (24 magazines)
 
@@ -95,8 +96,9 @@ GitHub Actions* pour le dashboard.
 
 ### 2. Premier lancement
 
-1. *Actions → Luxury Radar - Daily collection → Run workflow* avec `backfill_days = 14` (charge l'historique, pas d'e-mail).
-2. Les jours suivants, le cron de 07:00 UTC fait le reste. Les signaux basés sur le volume d'articles apparaissent
+1. *Actions → Luxury Radar - Daily collection → Run workflow* avec `backfill_days = 14` (charge l'historique, **pas d'e-mail** : c'est voulu).
+2. Pour vérifier l'envoi tout de suite : relancer le workflow avec `recap` coché (pas de collecte : envoie le récap des dernières 36 h déjà en base).
+   Ensuite, le cron de 07:00 UTC fait le reste (e-mail seulement s'il y a du nouveau). Les signaux basés sur le volume d'articles apparaissent
    après ~4 jours de collecte ; Wikipedia et Google Trends dès le premier jour (historique fourni par ces services).
 3. Le dashboard est publié à `https://<utilisateur>.github.io/Luxury-monitoring/`.
 
@@ -125,6 +127,7 @@ domaine d'envoi vérifié) et Bluesky acceptent vos réglages.
 | `Could not find the table 'public.articles'` (`PGRST205`) | `schema.sql` n'a pas été exécuté sur le projet Supabase pointé par `SUPABASE_URL` | Supabase → *SQL Editor* → coller `schema.sql` → *Run*. Si l'erreur persiste : `NOTIFY pgrst, 'reload schema';` |
 | `401` / `Invalid API key` | `SUPABASE_KEY` incorrecte | Utiliser la clé **service_role** (Project Settings → API), pas la clé anon |
 | `Resend rejected the e-mail (403)` | domaine d'envoi non vérifié | Vérifier un domaine dans Resend, ou n'envoyer qu'à l'adresse du compte avec `onboarding@resend.dev` |
+| Pas d'e-mail, run vert | run avec `backfill_days` (voulu), ou rien de nouveau depuis le dernier run (message `::notice::` dans « Run Luxury Radar ») | Relancer avec `recap` coché ; si toujours rien, lancer *Check setup* (destinataire, domaine d'envoi) |
 | `Groq failed on N batches` | clé invalide ou modèle retiré | Vérifier `GROQ_API_KEY` et la variable Actions `GROQ_MODEL` |
 
 ## Workflows

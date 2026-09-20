@@ -143,6 +143,39 @@ def test_limit_social_keeps_all_articles_and_top_posts(make_article):
     assert sorted(a.engagement for a in out if a.kind == "social") == [6, 7, 8, 9]
 
 
+# ---- --recap: e-mail what is already stored -----------------------------------------
+
+async def test_recap_emails_stored_articles_without_collecting(env, monkeypatch):
+    await main.run(args())                                            # fills the DB (and "sends" one e-mail)
+    env.clear()
+
+    async def boom(*a, **k):
+        raise AssertionError("--recap must not collect")
+
+    monkeypatch.setattr(main, "fetch_all", boom)
+    assert await main.run(args(recap=True)) == 0
+    assert len(env) == 1
+    name, subject, html, text, dry = env[0]
+    assert name == "daily" and "7 articles" in subject and "Demna Gucci" in html   # hot topic rebuilt from the rows
+
+
+async def test_recap_with_an_empty_database_sends_nothing(env, capsys):
+    assert await main.run(args(recap=True)) == 0
+    assert env == [] and "::warning::--recap" in capsys.readouterr().out
+
+
+async def test_recap_failure_returns_nonzero(env, monkeypatch):
+    await main.run(args())
+    monkeypatch.setattr(main, "deliver", lambda *a, **k: False)
+    assert await main.run(args(recap=True)) == 1
+
+
+async def test_skipped_email_is_explained_in_the_log(env, capsys):
+    await main.run(args())
+    await main.run(args())                                            # nothing new
+    assert "::notice::Nothing new" in capsys.readouterr().out
+
+
 # ---- dashboard export -----------------------------------------------------------
 
 def seed(store, index, days=10):
@@ -195,6 +228,22 @@ def test_dashboard_template_has_all_requested_sections():
     html = open("dashboard_template.html", encoding="utf-8").read()
     for needle in ["Signaux faibles", "Sentiment", "Nuage de mots", "Qui en parle", "Sujets chauds"]:
         assert needle in html, needle
+
+
+def test_dashboard_pins_the_five_requested_people():
+    from entities import EntityIndex
+    index = EntityIndex.load(ENTITIES)
+    pinned = {e.id for e in index.entities if e.pinned}
+    assert pinned == {"demna", "nicolas_ghesquiere", "pharrell_williams", "bernard_arnault", "jonathan_anderson"}
+    payload = dashboard.build_payload(SqliteStore(":memory:"), index, 7)          # no article at all
+    assert {e["id"] for e in payload["entities"] if e["pinned"]} == pinned
+    html = open("dashboard_template.html", encoding="utf-8").read()
+    assert 'id="people"' in html and "e.pinned" in html                            # block rendered from the pinned flag
+
+
+def test_dashboard_template_category_click_filters_the_articles_section():
+    html = open("dashboard_template.html", encoding="utf-8").read()
+    assert 'id="articles-sec"' in html and "showCategory" in html and 'id="active"' in html
 
 
 def test_dashboard_with_empty_database(tmp_path, index):

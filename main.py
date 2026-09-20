@@ -4,6 +4,7 @@ Usage:
   python main.py                       # daily run (last 36h)
   python main.py --backfill-days 14    # first run: load the last 14 days to seed the signal baselines (no e-mail)
   python main.py --dry-run             # everything except sending the e-mail (preview in output/)
+  python main.py --recap               # no collection: e-mail the last 36h already stored (tests the delivery)
 """
 
 import argparse
@@ -12,12 +13,13 @@ import logging
 import os
 import sys
 from dataclasses import asdict
+from datetime import timedelta
 
 from classify import classify_articles, groq_model, make_client
 from entities import EntityIndex
 from fetchers import fetch_all, load_sources
 from mailer import build_daily, deliver
-from models import Article, today_str
+from models import Article, now_utc, today_str
 from signals import (collect_trends, collect_wikipedia, derive_article_rows, detect_weak_signals, rows_to_articles,
                      yesterday)
 from store import Store, article_row, get_store
@@ -68,10 +70,41 @@ async def refresh_signals(store: Store, index: EntityIndex, external: bool) -> l
     return detect_weak_signals(store.load_signals(HISTORY_DAYS), day=yesterday())
 
 
+def clusters_from_rows(rows: list[dict]) -> list[dict]:
+    """Rebuild the hot-topic clusters of the e-mail from stored article rows."""
+    groups: dict[str, list[dict]] = {}
+    for r in rows:
+        if r.get("hot_topic") and r.get("hot_reason"):
+            groups.setdefault(r["hot_reason"], []).append(r)
+    clusters = [{"label": label, "article_count": len(rs), "source_count": len({r["source"] for r in rs}), "articles": rs}
+                for label, rs in groups.items()]
+    return sorted(clusters, key=lambda c: -c["article_count"])
+
+
+def send_recap(store: Store, index: EntityIndex, args: argparse.Namespace) -> int:
+    """E-mail the digest of what is already stored (no collection): checks that the delivery works end to end."""
+    cutoff = (now_utc() - timedelta(hours=args.lookback_hours)).isoformat()
+    rows = [r for r in store.load_articles(args.lookback_hours // 24 + 2) if r["published"] >= cutoff]
+    if not rows:
+        print("::warning::--recap: no stored article in the last %dh, nothing to send" % args.lookback_hours)
+        return 0
+    signals = detect_weak_signals(store.load_signals(HISTORY_DAYS), day=yesterday())
+    subject, html_body, text_body = build_daily(
+        day=today_str(), new_rows=rows, clusters=clusters_from_rows(rows), signals=signals, index=index,
+        dashboard_url=os.environ.get("DASHBOARD_URL", ""))
+    if not deliver(subject, html_body, text_body, "daily", dry_run=args.dry_run):
+        print("::error::recap e-mail could not be sent")
+        return 1
+    print(f"::notice::Recap e-mail sent ({len(rows)} stored items)" if not args.dry_run else "Recap preview written (dry run)")
+    return 0
+
+
 async def run(args: argparse.Namespace) -> int:
     index = EntityIndex.load(args.entities)
-    sources = load_sources(args.sources)
     store = get_store()
+    if args.recap:
+        return send_recap(store, index, args)
+    sources = load_sources(args.sources)
     today = today_str()
     lookback = args.backfill_days * 24 if args.backfill_days else args.lookback_hours
 
@@ -100,10 +133,11 @@ async def run(args: argparse.Namespace) -> int:
     logging.info(f"{len(signals)} weak signal(s) on {yesterday()}")
 
     if args.backfill_days:
-        logging.info("Backfill run: e-mail skipped")
+        print("::notice::Backfill run: no e-mail by design. Run the workflow again with backfill_days = 0 "
+              "(or tick 'recap') to get one.")
         return 0
     if not classified:
-        logging.info("Nothing new - no e-mail")
+        print("::notice::Nothing new since the last run: no e-mail. Tick 'recap' to e-mail what is already stored.")
         return 0
 
     kept_urls = {a.url for a in classified}
@@ -126,6 +160,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--backfill-days", type=int, default=0, help="seed history: fetch N days, skip the e-mail")
     p.add_argument("--no-external", action="store_true", help="skip Wikipedia / Google Trends")
     p.add_argument("--dry-run", action="store_true", help="do not send the e-mail")
+    p.add_argument("--recap", action="store_true", help="no collection: e-mail the stored items of the last lookback hours")
     return p.parse_args(argv)
 
 

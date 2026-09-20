@@ -50,9 +50,10 @@ def test_workflow_commands_reference_existing_scripts_and_flags():
                 for script in re.findall(r"python (\S+\.py)", step.get("run", "")):
                     assert os.path.exists(script), (name, script)
     daily = " ".join(s.get("run", "") for s in workflows()["daily.yml"]["jobs"]["collect-and-publish"]["steps"])
-    assert "--backfill-days" in daily and "--dry-run" in daily
+    assert "--backfill-days" in daily and "--dry-run" in daily and "--recap" in daily
+    assert "recap" in workflows()["daily.yml"][True]["workflow_dispatch"]["inputs"]
     ns = main.parse_args(["--backfill-days", "14", "--dry-run"])
-    assert ns.backfill_days == 14 and ns.dry_run
+    assert ns.backfill_days == 14 and ns.dry_run and main.parse_args(["--recap"]).recap
 
 
 def test_every_secret_used_by_workflows_is_documented_in_env_example():

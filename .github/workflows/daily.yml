@@ -10,6 +10,11 @@ on:
         description: "First run only: load the last N days to seed the signal baselines (no e-mail). 0 = normal daily run."
         required: false
         default: '0'
+      recap:
+        description: "No collection: e-mail the recap of what is already stored (checks that the e-mail delivery works)"
+        type: boolean
+        required: false
+        default: false
       dry_run:
         description: "Do not send the e-mail"
         type: boolean
@@ -71,10 +76,12 @@ jobs:
           DASHBOARD_URL: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           BACKFILL_DAYS: ${{ github.event.inputs.backfill_days || '0' }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          RECAP: ${{ github.event.inputs.recap || 'false' }}
         run: |
           args=""
           if [ "$BACKFILL_DAYS" != "0" ]; then args="$args --backfill-days $BACKFILL_DAYS"; fi
           if [ "$DRY_RUN" = "true" ]; then args="$args --dry-run"; fi
+          if [ "$RECAP" = "true" ]; then args="$args --recap"; fi
           python main.py $args
 
       - name: Generate dashboard

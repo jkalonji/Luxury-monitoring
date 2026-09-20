@@ -5,53 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Luxury Radar</title>
 <style>
-:root{--bg:#f6f2ea;--card:#fff;--ink:#141414;--muted:#77716a;--line:#e6e0d4;--gold:#a8843f;--pos:#3f7d58;--neg:#b5473a;--neu:#b9b3a8;--chip:#efe9dc}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101010;--card:#1a1a1a;--ink:#efeae0;--muted:#9a9388;--line:#2c2a26;--gold:#c9a25a;--pos:#5fa57b;--neg:#d0655a;--neu:#6a655c;--chip:#26241f}}
-:root[data-theme="dark"]{--bg:#101010;--card:#1a1a1a;--ink:#efeae0;--muted:#9a9388;--line:#2c2a26;--gold:#c9a25a;--pos:#5fa57b;--neg:#d0655a;--neu:#6a655c;--chip:#26241f}
+:root{--bg:#fde6ef;--card:#fffafc;--ink:#4a2038;--muted:#86506c;--line:#f6c9dd;--gold:#c42b76;--pos:#1f8064;--neg:#c8283f;--neu:#d3bccb;--chip:#fbd6e6;--shadow:0 8px 22px rgba(196,43,118,.12);--glow1:#ffcfe3;--glow2:#ffdff0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a0f1f;--card:#3a1729;--ink:#ffe4f0;--muted:#d9a7c0;--line:#5c2b47;--gold:#ff7eb6;--pos:#5fd1ab;--neg:#ff7a8e;--neu:#8a6579;--chip:#4d2139;--shadow:0 8px 22px rgba(0,0,0,.35);--glow1:#4a1a37;--glow2:#3a1429}}
+:root[data-theme="dark"]{--bg:#2a0f1f;--card:#3a1729;--ink:#ffe4f0;--muted:#d9a7c0;--line:#5c2b47;--gold:#ff7eb6;--pos:#5fd1ab;--neg:#ff7a8e;--neu:#8a6579;--chip:#4d2139;--shadow:0 8px 22px rgba(0,0,0,.35);--glow1:#4a1a37;--glow2:#3a1429}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+body{margin:0;background:var(--bg);background-image:radial-gradient(circle at 8% 0,var(--glow1) 0,transparent 38%),radial-gradient(circle at 95% 12%,var(--glow2) 0,transparent 34%);background-attachment:fixed;color:var(--ink);font:14px/1.5 "Segoe UI",-apple-system,"Trebuchet MS",Helvetica,Arial,sans-serif}
 a{color:inherit}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
-header{background:#141414;color:#fff;padding:22px 0 18px}
-header .eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#c9a25a}
-header h1{font:400 30px Georgia,"Times New Roman",serif;margin:4px 0 2px}
-header .meta{color:#bdb6aa;font-size:12px}
-.controls{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0}
+header{background:linear-gradient(135deg,#dc4587 0%,#c42b76 55%,#a11f62 100%);color:#fff;padding:26px 0 24px;border-radius:0 0 30px 30px;box-shadow:0 10px 28px rgba(161,31,98,.28)}
+header .eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#fff;font-weight:600}
+header h1{font:italic 400 36px Georgia,"Times New Roman",serif;margin:4px 0 2px}
+header .meta{color:#ffe9f3;font-size:12px}
+.controls{position:sticky;top:0;z-index:5;background:var(--bg);background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px dashed var(--line);padding:10px 0;margin-top:10px}
 .controls .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.seg button{border:0;background:var(--card);color:var(--ink);padding:7px 14px;cursor:pointer;font:inherit}
-.seg button.on{background:var(--ink);color:var(--bg)}
-select,input[type=search]{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font:inherit;max-width:100%}
-section{margin:26px 0}
-h2{font:600 12px Helvetica,Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:7px;margin:0 0 14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;box-shadow:var(--shadow)}
+.seg button{border:0;background:var(--card);color:var(--ink);padding:7px 16px;cursor:pointer;font:inherit}
+.seg button.on{background:linear-gradient(135deg,#e8508f,#b8246d);color:#fff}
+select,input[type=search]{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:inherit;max-width:100%}
+select:focus,input[type=search]:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+section{margin:28px 0;scroll-margin-top:72px}
+h2{font:700 12px "Segoe UI",Helvetica,Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border-bottom:2px dotted var(--line);padding-bottom:8px;margin:0 0 14px}
+h2::before{content:"\2661\00a0";letter-spacing:0}
 h2 small{color:var(--muted);letter-spacing:0;text-transform:none;font-weight:400;margin-left:8px}
 .grid{display:grid;gap:14px}
 .kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
-.kpi .v{font:400 28px Georgia,serif}
-.kpi .l{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 18px;box-shadow:var(--shadow)}
+.kpi{text-align:center}
+.kpi .v{font:italic 400 32px Georgia,serif;color:var(--gold)}
+.kpi .l{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
 .cols2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
 .muted{color:var(--muted)}
 .empty{color:var(--muted);padding:6px 0}
-.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 9px;margin:2px 4px 2px 0;font-size:12px;white-space:nowrap}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 10px;margin:2px 4px 2px 0;font-size:12px;white-space:nowrap}
 .chip b.up{color:var(--neg)}
+button.chip{border:0;color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
+button.chip:hover{background:var(--line)}
 .tag{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .sig{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
-.sig .name{font:400 18px Georgia,serif}
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.sig .name,.people .name{font:italic 400 19px Georgia,serif}
+.people .card{cursor:pointer;transition:transform .15s}
+.people .card:hover{transform:translateY(-2px)}
+.people .nb{font:italic 400 26px Georgia,serif;color:var(--gold)}
 .spark{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted)}
-.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--chip)}
+.bar{display:flex;height:9px;border-radius:999px;overflow:hidden;background:var(--chip)}
 .bar i{display:block;height:100%}
 .pos{background:var(--pos)}.neg{background:var(--neg)}.neu{background:var(--neu)}
 table{width:100%;border-collapse:collapse}
-td,th{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+td,th{padding:7px 8px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
 th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 td.n,th.n{text-align:right;white-space:nowrap}
 tr.click{cursor:pointer}tr.click:hover{background:var(--chip)}
+tr.click.on{background:var(--chip);box-shadow:inset 4px 0 0 var(--gold);font-weight:600}
 .cloud{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;justify-content:center;padding:8px 0;min-height:160px}
 .cloud span{cursor:pointer;line-height:1.15;font-family:Georgia,serif}
 .cloud span:hover{text-decoration:underline}
 .legend{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
-.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 3px 0 10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 10px}
 .topic{padding:10px 0;border-bottom:1px solid var(--line)}
 .topic:last-child{border:0}
 .topic .lbl{font-weight:600;cursor:pointer}
@@ -60,18 +70,21 @@ details{border-bottom:1px solid var(--line);padding:8px 0}
 summary{cursor:pointer;font-weight:600}
 .art{display:grid;grid-template-columns:92px 1fr;gap:2px 12px;padding:9px 0;border-bottom:1px solid var(--line)}
 .art .d{color:var(--muted);font-size:12px}
-.art .t a{text-decoration:none;font-weight:500}.art .t a:hover{text-decoration:underline}
+.art .t a{text-decoration:none;font-weight:500}.art .t a:hover{text-decoration:underline;color:var(--gold)}
 .art .m{grid-column:2;font-size:12px;color:var(--muted)}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
-button.more{margin:14px auto 0;display:block;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 20px;cursor:pointer;font:inherit}
-footer{color:var(--muted);font-size:12px;padding:10px 0 40px}
-@media (max-width:640px){.art{grid-template-columns:1fr}.art .m{grid-column:1}}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+#active{margin:0 0 6px;min-height:0}
+button.more{margin:14px auto 0;display:block;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 24px;cursor:pointer;font:inherit;box-shadow:var(--shadow)}
+button.more:hover{background:var(--chip)}
+footer{color:var(--muted);font-size:12px;padding:10px 0 40px;text-align:center}
+@media (max-width:640px){.art{grid-template-columns:1fr}.art .m{grid-column:1}header h1{font-size:30px}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <div class="eyebrow">Luxury Radar</div>
-  <h1>Veille mode &amp; luxe</h1>
+  <div class="eyebrow">✿ Luxury Radar ✿</div>
+  <h1>Veille mode &amp; luxe ♡</h1>
   <div class="meta" id="meta"></div>
 </div></header>
 
@@ -83,6 +96,11 @@ footer{color:var(--muted);font-size:12px;padding:10px 0 40px}
 
 <main class="wrap">
   <section><div class="grid kpis" id="kpis"></div></section>
+
+  <section id="people-sec">
+    <h2>Personnalités <small>toujours affichées · période choisie, indépendant du filtre maison · clic = détail</small></h2>
+    <div class="people" id="people"></div>
+  </section>
 
   <section id="signals-sec">
     <h2>Signaux faibles <small id="signals-note"></small></h2>
@@ -126,13 +144,14 @@ footer{color:var(--muted);font-size:12px;padding:10px 0 40px}
     <div class="card" id="cats"></div>
   </section>
 
-  <section>
-    <h2>Articles</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+  <section id="articles-sec">
+    <h2>Articles <small id="list-count"></small></h2>
+    <div class="filters">
       <select id="f-cat" aria-label="Catégorie"></select>
       <select id="f-kind" aria-label="Type"><option value="article">Magazines</option><option value="social">Réseaux sociaux</option><option value="all">Tout</option></select>
       <input type="search" id="f-q" placeholder="Rechercher un titre…">
     </div>
+    <div id="active"></div>
     <div id="list"></div>
     <button class="more" id="more" hidden>Voir plus</button>
   </section>
@@ -219,6 +238,26 @@ function spark(pts, base) {
   const last = pts[pts.length - 1];
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="évolution sur ${pts.length} jours">${bl}<polyline fill="none" stroke="var(--gold)" stroke-width="1.6" points="${line}"/><circle cx="${x(pts.length - 1)}" cy="${y(last[1])}" r="3" fill="var(--neg)"/></svg>`;
 }
+function renderPeople() {
+  const pinned = D.entities.filter(e => e.pinned);
+  $("people-sec").hidden = !pinned.length;
+  $("people").innerHTML = pinned.map(p => {
+    const arts = mags(D.articles.filter(a => inPeriod(a) && a.e.includes(p.id))).sort((a, b) => b._t - a._t);
+    const c = counts(arts), n = net(c);
+    const body = arts.length
+      ? `<div class="nb">${arts.length} <span class="tag">article${arts.length > 1 ? "s" : ""} · ${new Set(arts.map(a => a.s)).size} source${new Set(arts.map(a => a.s)).size > 1 ? "s" : ""}</span></div>` +
+        `<div style="margin:6px 0">${sentBar(c)}</div>` +
+        `<div class="tag" style="color:var(--${n >= 0 ? "pos" : "neg"})">sentiment net ${n >= 0 ? "+" : ""}${Math.round(n * 100)}</div>` +
+        `<div style="font-size:13px;margin-top:6px"><a href="${esc(safeUrl(arts[0].u))}" target="_blank" rel="noopener noreferrer">${esc(arts[0].t)}</a> <span class="muted">— ${esc(arts[0].s)}, ${frDate(arts[0].p)}</span></div>`
+      : `<div class="nb">0 <span class="tag">article</span></div><div class="empty">Aucun article sur ${state.days} jours.</div>`;
+    return `<div class="card" data-s="e:${esc(p.id)}" tabindex="0" role="button" aria-label="Détail : ${esc(p.label)}"><div class="name">${esc(p.label)}</div><div class="tag">personnalité</div>${body}</div>`;
+  }).join("");
+  $("people").querySelectorAll(".card").forEach(c => {
+    c.onclick = e => { if (!e.target.closest("a")) selectSubject(c.dataset.s); };
+    c.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectSubject(c.dataset.s); } };
+  });
+}
+
 function renderSignals() {
   const kinds = {house: "maison", group: "groupe", person: "personne", term: "terme"};
   if (!D.signals.length) {
@@ -289,9 +328,9 @@ function subjectOptions() {
   if (hotList.length) html += `<optgroup label="Sujets chauds">` + hotList.map(([h, n]) => opt("h:" + h, `${h} (${n})`)).join("") + `</optgroup>`;
   if (cur.startsWith("t:")) html += `<optgroup label="Terme">${opt(cur, cur.slice(2))}</optgroup>`;
   $("subject").innerHTML = html;
-  $("subject").onchange = e => { state.subject = e.target.value; renderSubject(); };
+  $("subject").onchange = e => { state.subject = e.target.value; state.shown = 40; renderSubject(); renderList(); };
 }
-function selectSubject(s) { state.subject = s; subjectOptions(); renderSubject(); $("subject").scrollIntoView({behavior: "smooth", block: "center"}); }
+function selectSubject(s) { state.subject = s; state.shown = 40; subjectOptions(); renderSubject(); renderList(); $("subject").scrollIntoView({behavior: "smooth", block: "center"}); }
 
 function renderSubject() {
   const all = D.articles.filter(a => inPeriod(a) && matches(a, state.subject) && (!state.entity || a.e.includes(state.entity)));
@@ -328,29 +367,48 @@ function renderCats(list) {
   const m = mags(list), by = {}; m.forEach(a => (by[a.cat] = by[a.cat] || []).push(a));
   const max = Math.max(...Object.values(by).map(v => v.length), 1);
   $("cats").innerHTML = `<table><tbody>` + D.categories.map(c => { const arts = by[c.name] || [];
-    return `<tr class="click" data-c="${esc(c.name)}"><td>${c.emoji} ${esc(c.name)}</td><td class="n">${arts.length}</td><td style="width:40%"><div class="bar"><i style="width:${arts.length / max * 100}%;background:var(--gold)"></i></div></td><td style="width:22%">${sentBar(counts(arts))}</td></tr>`; }).join("") + `</tbody></table>`;
-  $("cats").querySelectorAll("tr.click").forEach(r => r.onclick = () => { state.cat = r.dataset.c; $("f-cat").value = state.cat; state.shown = 40; renderList(); $("list").scrollIntoView({behavior: "smooth"}); });
+    return `<tr class="click${c.name === state.cat ? " on" : ""}" data-c="${esc(c.name)}" title="Afficher les articles de cette catégorie"><td>${c.emoji} ${esc(c.name)}</td><td class="n">${arts.length}</td><td style="width:40%"><div class="bar"><i style="width:${arts.length / max * 100}%;background:var(--gold)"></i></div></td><td style="width:22%">${sentBar(counts(arts))}</td></tr>`; }).join("") + `</tbody></table>` +
+    `<div class="legend" style="text-align:left">Clic sur une ligne = afficher ses articles ci-dessous (2ᵉ clic = retirer le filtre).</div>`;
+  $("cats").querySelectorAll("tr.click").forEach(r => r.onclick = () => showCategory(r.dataset.c));
+}
+// The count in a row is "magazine articles, chosen period + house": show exactly those, so drop the other list filters.
+function showCategory(name) {
+  const off = state.cat === name;
+  Object.assign(state, {cat: off ? "" : name, subject: "", kind: "article", q: "", shown: 40});
+  renderAll();
+  $("articles-sec").scrollIntoView({behavior: "smooth", block: "start"});
 }
 
 function renderList() {
+  $("f-cat").value = state.cat; $("f-kind").value = state.kind; if ($("f-q").value !== state.q) $("f-q").value = state.q;
   let list = D.articles.filter(a => inPeriod(a) && (!state.entity || a.e.includes(state.entity)) && matches(a, state.subject));
   if (state.kind !== "all") list = list.filter(a => a.k === state.kind);
   if (state.cat) list = list.filter(a => a.cat === state.cat);
   if (state.q) list = list.filter(a => a._l.includes(state.q.toLowerCase()));
   const catEmoji = Object.fromEntries(D.categories.map(c => [c.name, c.emoji]));
+  const chips = [];
+  if (state.cat) chips.push(["cat", `${catEmoji[state.cat] || ""} ${state.cat}`]);
+  if (state.subject) chips.push(["subject", subjectLabel(state.subject)]);
+  $("active").innerHTML = chips.map(([k, l]) => `<button class="chip" data-clear="${k}" title="Retirer ce filtre">${esc(l)} ✕</button>`).join("");
+  $("active").querySelectorAll("button").forEach(b => b.onclick = () => {
+    state[b.dataset.clear] = ""; state.shown = 40;
+    if (b.dataset.clear === "subject") { subjectOptions(); renderSubject(); }
+    renderCats(base()); renderList();
+  });
+  $("list-count").textContent = `${fmt(list.length)} résultat${list.length > 1 ? "s" : ""}`;
   $("list").innerHTML = list.slice(0, state.shown).map(a => `<div class="art"><div class="d">${frDate(a.p)}</div><div class="t"><a href="${esc(safeUrl(a.u))}" target="_blank" rel="noopener noreferrer">${esc(a.t)}</a></div>` +
-    `<div class="m"><span class="dot ${SENT_CLASS[a.se] || "neu"}" title="${esc(a.se)}"></span>${esc(a.s)} ${a.cat ? "· " + (catEmoji[a.cat] || "") + " " + esc(a.cat) : ""}${a.k === "social" && a.en ? " · " + fmt(a.en) + " d'engagement" : ""}${a.e.slice(0, 4).map(id => ent[id] ? `<span class="chip">${esc(ent[id].label)}</span>` : "").join("")}${a.sm ? `<div>${esc(a.sm)}</div>` : ""}</div></div>`).join("") || `<div class="empty">Aucun résultat.</div>`;
+    `<div class="m"><span class="dot ${SENT_CLASS[a.se] || "neu"}" title="${esc(a.se)}"></span>${esc(a.s)} ${a.cat ? "· " + (catEmoji[a.cat] || "") + " " + esc(a.cat) : ""}${a.k === "social" && a.en ? " · " + fmt(a.en) + " d'engagement" : ""}${a.e.slice(0, 4).map(id => ent[id] ? `<span class="chip">${esc(ent[id].label)}</span>` : "").join("")}${a.sm ? `<div>${esc(a.sm)}</div>` : ""}</div></div>`).join("") || `<div class="empty">Aucun résultat pour ces filtres.</div>`;
   $("more").hidden = list.length <= state.shown;
   $("more").textContent = `Voir plus (${list.length - state.shown})`;
 }
 
 function renderAll() {
   const list = base();
-  renderControls(); renderKPIs(list); renderSignals(); renderSentiment(list); renderCloud(list);
+  renderControls(); renderKPIs(list); renderPeople(); renderSignals(); renderSentiment(list); renderCloud(list);
   subjectOptions(); renderSubject(); renderTopics(list); renderCats(list); renderList();
 }
 $("f-cat").innerHTML = `<option value="">Toutes les catégories</option>` + D.categories.map(c => `<option value="${esc(c.name)}">${c.emoji} ${esc(c.name)}</option>`).join("");
-$("f-cat").onchange = e => { state.cat = e.target.value; state.shown = 40; renderList(); };
+$("f-cat").onchange = e => { state.cat = e.target.value; state.shown = 40; renderCats(base()); renderList(); };
 $("f-kind").onchange = e => { state.kind = e.target.value; state.shown = 40; renderList(); };
 $("f-q").oninput = e => { state.q = e.target.value; state.shown = 40; renderList(); };
 $("more").onclick = () => { state.shown += 40; renderList(); };

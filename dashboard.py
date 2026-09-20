@@ -64,7 +64,7 @@ def build_payload(store: Store, index: EntityIndex, days: int = 30) -> dict:
         "generated_at": now.isoformat(timespec="minutes"),
         "days": days,
         "articles": [_article(r) for r in rows],
-        "entities": [{"id": e.id, "label": e.label, "type": e.type, "group": e.group} for e in index.entities],
+        "entities": [{"id": e.id, "label": e.label, "type": e.type, "group": e.group, "pinned": e.pinned} for e in index.entities],
         "alias_words": sorted(index.alias_words()),
         "stopwords": sorted(STOPWORDS),
         "categories": [{"name": c, "emoji": CATEGORY_EMOJI[c]} for c in CATEGORIES],

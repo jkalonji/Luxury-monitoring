@@ -31,12 +31,12 @@
   ],
   "_people_note": "Proposition de personnes a valider (noms seuls, sans role, car les postes changent). enabled:false pour desactiver une personne.",
   "people": [
-    {"id": "bernard_arnault", "label": "Bernard Arnault", "aliases": ["Bernard Arnault"], "wikipedia": {"en": "Bernard_Arnault", "fr": "Bernard_Arnault"}, "trends": "Bernard Arnault", "enabled": true},
+    {"id": "bernard_arnault", "label": "Bernard Arnault", "aliases": ["Bernard Arnault"], "wikipedia": {"en": "Bernard_Arnault", "fr": "Bernard_Arnault"}, "trends": "Bernard Arnault", "pinned": true, "enabled": true},
     {"id": "delphine_arnault", "label": "Delphine Arnault", "aliases": ["Delphine Arnault"], "wikipedia": {"en": "Delphine_Arnault", "fr": "Delphine_Arnault"}, "trends": "Delphine Arnault", "enabled": true},
     {"id": "francois_henri_pinault", "label": "François-Henri Pinault", "aliases": ["François-Henri Pinault", "Francois-Henri Pinault"], "wikipedia": {"en": "François-Henri_Pinault", "fr": "François-Henri_Pinault"}, "trends": "François-Henri Pinault", "enabled": true},
     {"id": "luca_de_meo", "label": "Luca de Meo", "aliases": ["Luca de Meo"], "wikipedia": {"en": "Luca_de_Meo"}, "trends": "Luca de Meo", "enabled": true},
-    {"id": "jonathan_anderson", "label": "Jonathan Anderson", "aliases": ["Jonathan Anderson"], "wikipedia": {"en": "Jonathan_Anderson_(fashion_designer)"}, "trends": "Jonathan Anderson", "enabled": true},
-    {"id": "demna", "label": "Demna", "aliases": ["Demna", "Demna Gvasalia"], "wikipedia": {"en": "Demna_Gvasalia"}, "trends": "Demna", "enabled": true},
+    {"id": "jonathan_anderson", "label": "Jonathan Anderson", "aliases": ["Jonathan Anderson"], "wikipedia": {"en": "Jonathan_Anderson_(fashion_designer)"}, "trends": "Jonathan Anderson", "pinned": true, "enabled": true},
+    {"id": "demna", "label": "Demna", "aliases": ["Demna", "Demna Gvasalia"], "wikipedia": {"en": "Demna_Gvasalia"}, "trends": "Demna", "pinned": true, "enabled": true},
     {"id": "matthieu_blazy", "label": "Matthieu Blazy", "aliases": ["Matthieu Blazy"], "wikipedia": {"en": "Matthieu_Blazy"}, "trends": "Matthieu Blazy", "enabled": true},
     {"id": "pierpaolo_piccioli", "label": "Pierpaolo Piccioli", "aliases": ["Pierpaolo Piccioli"], "wikipedia": {"en": "Pierpaolo_Piccioli"}, "trends": "Pierpaolo Piccioli", "enabled": true},
     {"id": "alessandro_michele", "label": "Alessandro Michele", "aliases": ["Alessandro Michele"], "wikipedia": {"en": "Alessandro_Michele"}, "trends": "Alessandro Michele", "enabled": true},
@@ -44,7 +44,7 @@
     {"id": "maria_grazia_chiuri", "label": "Maria Grazia Chiuri", "aliases": ["Maria Grazia Chiuri"], "wikipedia": {"en": "Maria_Grazia_Chiuri"}, "trends": "Maria Grazia Chiuri", "enabled": true},
     {"id": "sarah_burton", "label": "Sarah Burton", "aliases": ["Sarah Burton"], "wikipedia": {"en": "Sarah_Burton"}, "trends": "Sarah Burton", "enabled": true},
     {"id": "anthony_vaccarello", "label": "Anthony Vaccarello", "aliases": ["Anthony Vaccarello"], "wikipedia": {"en": "Anthony_Vaccarello"}, "trends": "Anthony Vaccarello", "enabled": true},
-    {"id": "nicolas_ghesquiere", "label": "Nicolas Ghesquière", "aliases": ["Nicolas Ghesquière", "Nicolas Ghesquiere"], "wikipedia": {"en": "Nicolas_Ghesquière"}, "trends": "Nicolas Ghesquière", "enabled": true},
+    {"id": "nicolas_ghesquiere", "label": "Nicolas Ghesquière", "aliases": ["Nicolas Ghesquière", "Nicolas Ghesquiere"], "wikipedia": {"en": "Nicolas_Ghesquière"}, "trends": "Nicolas Ghesquière", "pinned": true, "enabled": true},
     {"id": "kim_jones", "label": "Kim Jones", "aliases": ["Kim Jones"], "wikipedia": {"en": "Kim_Jones_(designer)"}, "trends": "Kim Jones", "enabled": true},
     {"id": "miuccia_prada", "label": "Miuccia Prada", "aliases": ["Miuccia Prada"], "wikipedia": {"en": "Miuccia_Prada"}, "trends": "Miuccia Prada", "enabled": true},
     {"id": "raf_simons", "label": "Raf Simons", "aliases": ["Raf Simons"], "wikipedia": {"en": "Raf_Simons"}, "trends": "Raf Simons", "enabled": true},
@@ -54,7 +54,7 @@
     {"id": "glenn_martens", "label": "Glenn Martens", "aliases": ["Glenn Martens"], "wikipedia": {"en": "Glenn_Martens"}, "trends": "Glenn Martens", "enabled": true},
     {"id": "hedi_slimane", "label": "Hedi Slimane", "aliases": ["Hedi Slimane"], "wikipedia": {"en": "Hedi_Slimane"}, "trends": "Hedi Slimane", "enabled": true},
     {"id": "anna_wintour", "label": "Anna Wintour", "aliases": ["Anna Wintour"], "wikipedia": {"en": "Anna_Wintour", "fr": "Anna_Wintour"}, "trends": "Anna Wintour", "enabled": true},
-    {"id": "pharrell_williams", "label": "Pharrell Williams", "aliases": ["Pharrell Williams", "Pharrell"], "wikipedia": {}, "trends": "Pharrell Williams", "enabled": true}
+    {"id": "pharrell_williams", "label": "Pharrell Williams", "aliases": ["Pharrell Williams", "Pharrell"], "wikipedia": {}, "trends": "Pharrell Williams", "pinned": true, "enabled": true}
   ],
   "luxury_keywords": {
     "_doc": "Mots-cles pour filtrer les medias generalistes (filter=luxury) : au moins 1 match sur titre+description, ou 1 alias de maison/groupe.",
