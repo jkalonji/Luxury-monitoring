@@ -1,0 +1,40 @@
+{
+  "_doc": "Entites suivies. Chaque entite a un label affiche, des alias (recherche insensible a la casse, mots entiers) et, si dispo, la page Wikipedia (pageviews) et le terme Google Trends. Ajouter une maison = ajouter un bloc ici, rien d'autre.",
+  "houses": [
+    { "id": "dior", "label": "Dior", "aliases": ["Dior", "Christian Dior"], "group": "LVMH", "wikipedia": {"en": "Christian_Dior_(fashion_house)", "fr": "Dior"}, "trends": "Dior" },
+    { "id": "louis_vuitton", "label": "Louis Vuitton", "aliases": ["Louis Vuitton"], "group": "LVMH", "wikipedia": {"en": "Louis_Vuitton", "fr": "Louis_Vuitton_(entreprise)"}, "trends": "Louis Vuitton" },
+    { "id": "fendi", "label": "Fendi", "aliases": ["Fendi"], "group": "LVMH", "wikipedia": {"en": "Fendi", "fr": "Fendi"}, "trends": "Fendi" },
+    { "id": "givenchy", "label": "Givenchy", "aliases": ["Givenchy"], "group": "LVMH", "wikipedia": {"en": "Givenchy", "fr": "Givenchy"}, "trends": "Givenchy" },
+    { "id": "kenzo", "label": "Kenzo", "aliases": ["Kenzo"], "group": "LVMH", "wikipedia": {"en": "Kenzo_(brand)", "fr": "Kenzo_(entreprise)"}, "trends": "Kenzo" },
+    { "id": "loewe", "label": "Loewe", "aliases": ["Loewe"], "group": "LVMH", "wikipedia": {"en": "Loewe_(fashion_house)", "fr": "Loewe"}, "trends": "Loewe" },
+    { "id": "gucci", "label": "Gucci", "aliases": ["Gucci"], "group": "Kering", "wikipedia": {"en": "Gucci", "fr": "Gucci"}, "trends": "Gucci" },
+    { "id": "balenciaga", "label": "Balenciaga", "aliases": ["Balenciaga"], "group": "Kering", "wikipedia": {"en": "Balenciaga", "fr": "Balenciaga"}, "trends": "Balenciaga" },
+    { "id": "bottega_veneta", "label": "Bottega Veneta", "aliases": ["Bottega Veneta", "Bottega"], "group": "Kering", "wikipedia": {"en": "Bottega_Veneta", "fr": "Bottega_Veneta"}, "trends": "Bottega Veneta" },
+    { "id": "saint_laurent", "label": "Saint Laurent", "aliases": ["Saint Laurent", "Yves Saint Laurent", "YSL"], "group": "Kering", "wikipedia": {"en": "Yves_Saint_Laurent_(brand)", "fr": "Yves_Saint_Laurent_(entreprise)"}, "trends": "Saint Laurent" },
+    { "id": "alaia", "label": "Alaïa", "aliases": ["Alaïa", "Alaia", "Azzedine Alaïa"], "group": "Richemont", "wikipedia": {"en": "Azzedine_Alaïa", "fr": "Azzedine_Alaïa"}, "trends": "Alaïa" },
+    { "id": "chanel", "label": "Chanel", "aliases": ["Chanel"], "group": "Indépendant", "wikipedia": {"en": "Chanel", "fr": "Chanel"}, "trends": "Chanel" },
+    { "id": "prada", "label": "Prada", "aliases": ["Prada"], "group": "Prada Group", "wikipedia": {"en": "Prada", "fr": "Prada"}, "trends": "Prada" },
+    { "id": "miu_miu", "label": "Miu Miu", "aliases": ["Miu Miu"], "group": "Prada Group", "wikipedia": {"en": "Miu_Miu", "fr": "Miu_Miu"}, "trends": "Miu Miu" },
+    { "id": "versace", "label": "Versace", "aliases": ["Versace"], "group": "Capri Holdings", "wikipedia": {"en": "Versace", "fr": "Versace"}, "trends": "Versace" },
+    { "id": "valentino", "label": "Valentino", "aliases": ["Valentino"], "group": "Indépendant", "wikipedia": {"en": "Valentino_(fashion_house)", "fr": "Valentino_(entreprise)"}, "trends": "Valentino" },
+    { "id": "burberry", "label": "Burberry", "aliases": ["Burberry", "Bureberry"], "group": "Indépendant", "wikipedia": {"en": "Burberry", "fr": "Burberry"}, "trends": "Burberry" },
+    { "id": "jil_sander", "label": "Jil Sander", "aliases": ["Jil Sander", "Jill Sander", "Jill Sanders"], "group": "OTB", "wikipedia": {"en": "Jil_Sander_(brand)", "fr": "Jil_Sander"}, "trends": "Jil Sander" },
+    { "id": "vivienne_westwood", "label": "Vivienne Westwood", "aliases": ["Vivienne Westwood"], "group": "Indépendant", "wikipedia": {"en": "Vivienne_Westwood", "fr": "Vivienne_Westwood"}, "trends": "Vivienne Westwood" },
+    { "id": "coperni", "label": "Coperni", "aliases": ["Coperni"], "group": "Indépendant", "wikipedia": {"en": "Coperni", "fr": "Coperni"}, "trends": "Coperni" },
+    { "id": "jw_anderson", "label": "JW Anderson", "aliases": ["JW Anderson", "J.W. Anderson", "J.W.Anderson"], "group": "Loewe / LVMH", "wikipedia": {"en": "JW_Anderson", "fr": "JW_Anderson"}, "trends": "JW Anderson" },
+    { "id": "ralph_lauren", "label": "Ralph Lauren", "aliases": ["Ralph Lauren"], "group": "Indépendant", "wikipedia": {"en": "Ralph_Lauren_Corporation", "fr": "Ralph_Lauren_Corporation"}, "trends": "Ralph Lauren" }
+  ],
+  "groups": [
+    { "id": "lvmh", "label": "LVMH", "aliases": ["LVMH", "Moët Hennessy", "Moet Hennessy", "Bernard Arnault"], "wikipedia": {"en": "LVMH", "fr": "LVMH"}, "trends": "LVMH" },
+    { "id": "kering", "label": "Kering", "aliases": ["Kering", "François-Henri Pinault", "Francois-Henri Pinault"], "wikipedia": {"en": "Kering", "fr": "Kering"}, "trends": "Kering" },
+    { "id": "richemont", "label": "Richemont", "aliases": ["Richemont", "Cartier", "Van Cleef"], "wikipedia": {"en": "Richemont", "fr": "Richemont"}, "trends": "Richemont" }
+  ],
+  "people": [
+    { "_todo": "A completer avec toi : directeurs artistiques, PDG, ambassadeurs. Exemples ci-dessous, a valider.", "id": "example_placeholder", "label": "(a completer)", "aliases": [], "enabled": false }
+  ],
+  "luxury_keywords": {
+    "_doc": "Mots-cles pour filtrer les medias generalistes (filter=luxury) : au moins 1 match sur titre+description, ou 1 alias de maison/groupe.",
+    "strong": ["luxe", "luxury", "haute couture", "prêt-à-porter", "ready-to-wear", "fashion week", "semaine de la mode", "défilé", "runway", "maison de couture", "fashion house", "maroquinerie", "joaillerie", "haute joaillerie", "horlogerie", "directeur artistique", "creative director", "showroom", "capsule collection", "collection capsule", "pop-up", "flagship", "boutique", "couturier", "designer", "sac à main", "handbag"],
+    "weak": ["mode", "fashion", "collection", "style", "sneakers", "vêtement", "garment", "beauté", "beauty", "parfum", "fragrance", "montre", "watch", "bijou", "jewelry", "jewellery"]
+  }
+}

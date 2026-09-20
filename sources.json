@@ -1,0 +1,42 @@
+{
+  "_doc": "type=rss: flux direct. type=gnews: repli Google News (query = requete Google News, lang = fr|en). filter=luxury: garde uniquement les articles qui matchent les mots-cles mode/luxe de entities.json (pour les medias generalistes).",
+  "sources": [
+    { "comment": "=== FRANCE ===" },
+    { "name": "Le Journal du Luxe", "type": "gnews", "query": "site:journalduluxe.fr when:2d", "lang": "fr", "country": "🇫🇷", "enabled": true },
+    { "name": "Vogue France", "type": "rss", "url": "https://www.vogue.fr/feed/rss", "lang": "fr", "country": "🇫🇷", "enabled": true },
+    { "name": "FashionNetwork", "type": "gnews", "query": "site:fashionnetwork.com when:2d", "lang": "en", "country": "🇫🇷", "enabled": true },
+    { "name": "Elle France", "type": "gnews", "query": "site:elle.fr (mode OR luxe OR défilé OR maison) when:2d", "lang": "fr", "country": "🇫🇷", "enabled": true, "filter": "luxury" },
+    { "name": "Views", "type": "gnews", "query": "site:views.fr when:14d", "lang": "fr", "country": "🇫🇷", "enabled": true },
+    { "name": "GQ France", "type": "rss", "url": "https://www.gqmagazine.fr/feed/rss", "lang": "fr", "country": "🇫🇷", "enabled": true, "filter": "luxury" },
+    { "name": "Le Monde M", "type": "rss", "url": "https://www.lemonde.fr/m-mode/rss_full.xml", "lang": "fr", "country": "🇫🇷", "enabled": true },
+    { "name": "Madame Figaro", "type": "gnews", "query": "site:madame.lefigaro.fr (mode OR luxe OR défilé) when:2d", "lang": "fr", "country": "🇫🇷", "enabled": true, "filter": "luxury" },
+
+    { "comment": "=== ROYAUME-UNI ===" },
+    { "name": "British Vogue", "type": "rss", "url": "https://www.vogue.co.uk/feed/rss", "lang": "en", "country": "🇬🇧", "enabled": true },
+    { "name": "AnOther Magazine", "type": "rss", "url": "https://www.anothermag.com/feed", "lang": "en", "country": "🇬🇧", "enabled": true },
+    { "name": "Business of Fashion", "type": "rss", "url": "https://www.businessoffashion.com/arc/outboundfeeds/rss/", "lang": "en", "country": "🇬🇧", "enabled": true },
+    { "name": "10 Magazine", "type": "rss", "url": "https://10magazine.com/feed/", "lang": "en", "country": "🇬🇧", "enabled": true },
+    { "name": "British GQ", "type": "rss", "url": "https://www.gq-magazine.co.uk/feed/rss", "lang": "en", "country": "🇬🇧", "enabled": true, "filter": "luxury" },
+    { "name": "Tatler", "type": "rss", "url": "https://www.tatler.com/feed/rss", "lang": "en", "country": "🇬🇧", "enabled": true, "filter": "luxury" },
+
+    { "comment": "=== ETATS-UNIS ===" },
+    { "name": "Vogue", "type": "rss", "url": "https://www.vogue.com/feed/rss", "lang": "en", "country": "🇺🇸", "enabled": true },
+    { "name": "WWD", "type": "rss", "url": "https://wwd.com/feed/", "lang": "en", "country": "🇺🇸", "enabled": true },
+    { "name": "Jing Daily", "type": "gnews", "query": "site:jingdaily.com when:2d", "lang": "en", "country": "🇺🇸", "enabled": true },
+    { "name": "Luxury Daily", "type": "rss", "url": "https://www.luxurydaily.com/feed/", "lang": "en", "country": "🇺🇸", "enabled": true },
+    { "name": "New York Times", "type": "rss", "url": "https://rss.nytimes.com/services/xml/rss/nyt/FashionandStyle.xml", "lang": "en", "country": "🇺🇸", "enabled": true, "filter": "luxury" },
+    { "name": "Harper's Bazaar", "type": "rss", "url": "https://www.harpersbazaar.com/rss/all.xml/", "lang": "en", "country": "🇺🇸", "enabled": true, "filter": "luxury" },
+    { "name": "V Magazine", "type": "gnews", "query": "site:vmagazine.com when:14d", "lang": "en", "country": "🇺🇸", "enabled": true },
+    { "name": "W Magazine", "type": "rss", "url": "https://www.wmagazine.com/rss", "lang": "en", "country": "🇺🇸", "enabled": true },
+
+    { "comment": "=== EUROPE / MONDE ===" },
+    { "name": "FashionUnited", "type": "gnews", "query": "site:fashionunited.com when:2d", "lang": "en", "country": "🇳🇱", "enabled": true },
+    { "name": "Highsnobiety", "type": "rss", "url": "https://www.highsnobiety.com/feed/", "lang": "en", "country": "🇩🇪", "enabled": true },
+
+    { "comment": "=== SOCIAL (engagement / signaux faibles) ===" },
+    { "name": "Reddit r/fashion", "type": "reddit", "url": "https://www.reddit.com/r/fashion/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" },
+    { "name": "Reddit r/handbags", "type": "reddit", "url": "https://www.reddit.com/r/handbags/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true },
+    { "name": "Reddit r/malefashionadvice", "type": "reddit", "url": "https://www.reddit.com/r/malefashionadvice/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" },
+    { "name": "Reddit r/femalefashionadvice", "type": "reddit", "url": "https://www.reddit.com/r/femalefashionadvice/top.json?t=day&limit=25", "lang": "en", "country": "🌍", "enabled": true, "filter": "luxury" }
+  ]
+}
