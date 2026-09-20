@@ -98,8 +98,7 @@ def test_bluesky(monkeypatch):
 def test_supabase_new_format_keys(monkeypatch):
     monkeypatch.setattr(check_setup.requests, "get", lambda url, **kw: Resp(404, "PGRST205"))
     res = check_supabase({"SUPABASE_URL": "https://proj42.supabase.co", "SUPABASE_KEY": "sb_secret_abcdef"})
-    text = "
-".join(m for _, m in res)
+    text = "|".join(m for _, m in res)
     assert "new-format secret key" in text and "points to project 'proj42'" in text and "project 'proj42'" in text
     assert "sb_secret_abcdef" not in text
     pub = check_supabase({"SUPABASE_URL": "https://proj42.supabase.co", "SUPABASE_KEY": "sb_publishable_x"})
